@@ -1,0 +1,9 @@
+Meeting notes, 3 November 2026
+
+Attendees: Sam, Priya, Valerio
+
+Agreed to move the launch to the second week of December. Priya will own the hosting migration. Open risk: the vendor contract renewal date is not confirmed.
+
+Action items:
+- Valerio: finish the retrieval demo and publish it.
+- Sam: confirm the contract renewal date.

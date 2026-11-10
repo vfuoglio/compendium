@@ -1,0 +1,16 @@
+# Example config. Paths are relative to this file.
+# Sources are read-only unless you set read_only = false (markdown only).
+
+[sources.notes]
+type = "markdown"
+path = "notes"
+read_only = false
+
+[sources.docs]
+type = "files"        # .txt, .pdf, .docx
+path = "docs"
+
+[sources.books]
+type = "csv"
+path = "data/books.csv"
+title_column = "title"
