@@ -2,7 +2,7 @@
 
 One [MCP](https://modelcontextprotocol.io) server for all your personal knowledge: notes, documents, and data.
 
-Point it at a Markdown vault, a folder of PDFs, a CSV, or all three, and an AI assistant can search across them, read what it finds, and cite where it came from. Everything stays on your machine, and it only reads unless you say otherwise.
+Point it at a Markdown vault, a folder of PDFs, a CSV, or all three, and an AI assistant can search across them, read what it finds, and cite where it came from. The server runs locally, makes no network calls of its own, and only reads unless you say otherwise. Content the assistant reads is passed to your AI client as usual, so point it only at data you are comfortable sharing with that provider.
 
 > "What did I decide about hosting, and is there a book I noted about it?"
 > The assistant searches `notes`, `docs`, and `books` in one call and cites `notes:projects/website.md` and `books:library.csv#4`.
@@ -12,7 +12,7 @@ Point it at a Markdown vault, a folder of PDFs, a CSV, or all three, and an AI a
 | Type | What it serves | Extras |
 |---|---|---|
 | `markdown` | A folder of `.md` notes (Obsidian-style vaults work) | tags, `[[wikilinks]]` / backlinks, optional additive writes |
-| `files` | `.txt`, `.pdf`, `.docx` documents | PDF/DOCX need `pip install "compendium-mcp[pdf,docx]"` |
+| `files` | `.txt`, `.pdf`, `.docx` documents (always read-only) | PDF/DOCX need `pip install "compendium-mcp[pdf,docx]"` |
 | `csv` | Every row of a CSV (or folder of CSVs) is an item | `title_column`, `delimiter` |
 
 Adding another kind of source (a database, an issue tracker, an email archive) means implementing one small class. See [Adding a source](#adding-a-source).
@@ -34,13 +34,15 @@ Items are also available as **resources** (`compendium://notes/projects/web.md`)
 
 ## Install
 
+Requires Python 3.11+.
+
 ```bash
 git clone https://github.com/vfuoglio/compendium && cd compendium
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[all]"
 ```
 
-Quick start on one folder (read-only):
+Quick start on one folder (read-only; add `--writable` to allow `create_item` / `append_to_item`):
 
 ```bash
 compendium --dir ~/notes
@@ -64,7 +66,7 @@ path = "~/data/books.csv"
 title_column = "title"
 ```
 
-Config is found via `--config`, `$COMPENDIUM_CONFIG`, `./compendium.toml`, or `~/.config/compendium/config.toml`. Try the bundled example with the MCP inspector:
+Config is found via `--config`, `$COMPENDIUM_CONFIG`, `./compendium.toml`, or `~/.config/compendium/config.toml`. Try the bundled example with the MCP inspector (with your venv activated so `compendium` is on the PATH):
 
 ```bash
 npx @modelcontextprotocol/inspector compendium --config example/compendium.toml
@@ -129,7 +131,7 @@ pip install -e ".[dev]"
 pytest
 ```
 
-43 tests cover each source, ranking, path safety, read-only enforcement, config validation, and a real MCP client talking to the server in-process (tool lists, annotations, error reporting, resources, prompt).
+The tests cover each source, ranking, path safety, read-only enforcement, config validation, and a real MCP client talking to the server in-process (tool lists, annotations, error reporting, resources, prompt).
 
 ## Limitations
 
